@@ -1,0 +1,2 @@
+-- Seed intentionally left minimal for Sprint 3.
+-- Domain records should be generated through auth bootstrap and application flows.
