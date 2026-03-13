@@ -8,7 +8,7 @@ type ActionGroupProps = {
 export function ActionGroup({ children, compact = false }: ActionGroupProps) {
   return (
     <div
-      className={`flex flex-wrap items-center ${
+      className={`flex w-full flex-wrap items-center ${
         compact ? "gap-2" : "gap-3"
       }`}
     >

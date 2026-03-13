@@ -84,7 +84,7 @@ export function SubscriptionCard({
         </StatusBadge>
       </div>
 
-      <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-4 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]">
         <div className={insetCardStyles()}>
           <CardLabel icon={CreditCard}>{t("plan")}</CardLabel>
           <p className="mt-2 text-sm font-medium capitalize text-slate-700">{subscription.plan_code}</p>

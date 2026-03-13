@@ -71,7 +71,7 @@ async function StudentsPageContent({
         icon={Users}
         title={t("title")}
       >
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
           <MetricCard
             detail={t("tableStudent")}
             icon={Users}

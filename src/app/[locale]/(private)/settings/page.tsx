@@ -85,7 +85,7 @@ export default async function SettingsPage({ params, searchParams }: SettingsPag
         )}
       </PageHeader>
 
-      <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+      <section className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
         <div className="space-y-6">
           <SubscriptionCard
             checkoutAction={checkoutAction}
@@ -118,7 +118,7 @@ export default async function SettingsPage({ params, searchParams }: SettingsPag
           </section>
         </div>
 
-        <div className="xl:sticky xl:top-6 xl:self-start">
+        <div className="2xl:sticky 2xl:top-6 2xl:self-start">
           <ReadinessCard snapshot={readinessSnapshot} />
         </div>
       </section>

@@ -236,25 +236,22 @@ async function DashboardPageContent({
               <Users aria-hidden="true" className="mr-2 h-4 w-4" />
               {t("openNewStudent")}
             </Link>
-            <Link
-              className={buttonStyles({ variant: "secondary" })}
-              href={`/${locale}/agenda`}
-            >
-              <CalendarDays aria-hidden="true" className="mr-2 h-4 w-4" />
-              {t("openAgenda")}
-            </Link>
-            <Link
-              className={buttonStyles({ variant: "secondary" })}
-              href={`/${locale}/payments`}
-            >
-              <CircleDollarSign aria-hidden="true" className="mr-2 h-4 w-4" />
-              {t("openPayments")}
-            </Link>
           </ActionGroup>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <Link className={buttonStyles({ size: "sm", variant: "filter" })} href={`/${locale}/agenda`}>
+            <CalendarDays aria-hidden="true" className="mr-2 h-4 w-4" />
+            {t("openAgenda")}
+          </Link>
+          <Link className={buttonStyles({ size: "sm", variant: "filter" })} href={`/${locale}/payments`}>
+            <CircleDollarSign aria-hidden="true" className="mr-2 h-4 w-4" />
+            {t("openPayments")}
+          </Link>
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
         <Link className="block" href={`/${locale}/agenda`}>
           <MetricCard
             detail={
@@ -298,7 +295,7 @@ async function DashboardPageContent({
         </Link>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+      <section className="grid gap-6 2xl:grid-cols-[minmax(0,1.18fr)_minmax(320px,0.82fr)]">
         <div className="space-y-6">
           <article className="section-shell motion-rise motion-delay-1 rounded-[34px] p-8">
             <SectionHeading
@@ -408,7 +405,7 @@ async function DashboardPageContent({
           </article>
         </div>
 
-        <aside className="space-y-6">
+        <aside className="space-y-6 2xl:sticky 2xl:top-6 2xl:self-start">
           <article className="section-shell motion-rise motion-delay-2 rounded-[34px] p-6">
             <SectionHeading
               description={t("onboardingDescription")}

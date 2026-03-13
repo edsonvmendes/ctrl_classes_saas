@@ -16,7 +16,7 @@ export const buttonStyles = cva(
       },
       variant: {
         filter:
-          "border border-[rgba(23,63,115,0.12)] bg-white/76 text-slate-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:border-[rgba(255,111,97,0.24)] hover:bg-white hover:text-slate-950",
+          "border border-[rgba(23,63,115,0.1)] bg-white/76 text-slate-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:border-[rgba(255,111,97,0.24)] hover:bg-white hover:text-slate-950",
         filterActive:
           "border border-transparent bg-[linear-gradient(135deg,#0f2341_0%,#173f73_58%,#ff6f61_100%)] text-white shadow-[0_16px_30px_rgba(15,35,65,0.22)] hover:translate-y-[-1px] hover:brightness-105",
         ghost:
@@ -32,7 +32,7 @@ export const buttonStyles = cva(
         primary:
           "border border-transparent bg-[linear-gradient(135deg,#0f2341_0%,#173f73_58%,#ff6f61_100%)] text-white shadow-[0_18px_36px_rgba(15,35,65,0.22)] hover:translate-y-[-1px] hover:brightness-105",
         secondary:
-          "border border-[rgba(23,63,115,0.12)] bg-white/84 text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.84)] hover:border-[rgba(255,111,97,0.28)] hover:bg-white",
+          "border border-[rgba(23,63,115,0.1)] bg-white/84 text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.84)] hover:border-[rgba(255,111,97,0.24)] hover:bg-white",
         warm:
           "border border-transparent bg-[var(--brand-warm)] text-[var(--brand-navy)] shadow-[0_18px_36px_rgba(15,35,65,0.18)] hover:translate-y-[-1px] hover:bg-[#f7da85]",
       },
@@ -57,7 +57,7 @@ export const fieldStyles = cva(
 );
 
 export const insetCardStyles = cva(
-  "interactive-card rounded-[24px] border border-[rgba(23,63,115,0.1)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(244,247,252,0.88))] shadow-[inset_0_1px_0_rgba(255,255,255,0.84)] hover:border-[rgba(255,111,97,0.18)]",
+  "interactive-card rounded-[24px] border border-[rgba(23,63,115,0.08)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(244,247,252,0.88))] shadow-[inset_0_1px_0_rgba(255,255,255,0.84)] hover:border-[rgba(255,111,97,0.16)]",
   {
     defaultVariants: {
       padding: "md",
@@ -74,7 +74,7 @@ export const insetCardStyles = cva(
 export const dataTableShellClassName = "section-shell overflow-hidden rounded-[32px]";
 
 export const dataTableHeaderClassName =
-  "border-b border-[rgba(23,63,115,0.1)] bg-white/58 px-6 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400";
+  "border-b border-[rgba(23,63,115,0.08)] bg-white/58 px-6 py-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400";
 
 export const dataTableRowClassName =
   "px-6 py-5 text-sm transition hover:bg-white/58";

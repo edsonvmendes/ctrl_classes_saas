@@ -107,7 +107,7 @@ export function PartnerForm({
 
   return (
     <form action={formAction} className="space-y-8">
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+      <section className="grid gap-6 2xl:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-6">
           <section className="panel-soft rounded-[34px] p-8">
             <SectionHeading
@@ -244,7 +244,7 @@ export function PartnerForm({
           </section>
         </div>
 
-        <aside className="space-y-4 xl:sticky xl:top-6 xl:self-start">
+        <aside className="space-y-4 2xl:sticky 2xl:top-6 2xl:self-start">
           <section className="panel-soft rounded-[30px] p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--brand-blue)]">
               {t("preferencesTitle")}

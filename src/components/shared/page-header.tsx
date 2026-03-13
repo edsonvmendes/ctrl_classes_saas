@@ -21,11 +21,11 @@ export function PageHeader({
 }: PageHeaderProps) {
   return (
     <section className="panel-soft hero-glow motion-rise rounded-[36px] p-6 md:p-7">
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
         <div className="max-w-3xl">
           {eyebrow && icon ? <CardLabel icon={icon}>{eyebrow}</CardLabel> : null}
           <h1
-            className={`font-display text-3xl font-bold tracking-[-0.04em] text-[var(--brand-navy)] md:text-4xl ${
+            className={`font-display text-3xl font-bold tracking-[-0.045em] text-[var(--brand-navy)] md:text-4xl ${
               eyebrow && icon ? "mt-4" : ""
             }`}
           >
@@ -36,10 +36,14 @@ export function PageHeader({
           ) : null}
         </div>
 
-        {actions ? <div className="flex flex-wrap items-center gap-3 md:justify-end">{actions}</div> : null}
+        {actions ? (
+          <div className="flex w-full flex-wrap items-center gap-3 xl:w-auto xl:justify-end">{actions}</div>
+        ) : null}
       </div>
 
-      {children ? <div className="mt-6">{children}</div> : null}
+      {children ? (
+        <div className="mt-6 border-t border-[rgba(23,63,115,0.08)] pt-6">{children}</div>
+      ) : null}
     </section>
   );
 }

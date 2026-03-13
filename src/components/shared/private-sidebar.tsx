@@ -78,7 +78,7 @@ export function PrivateSidebar({
       </div>
 
       {!isCollapsed && activeItem ? (
-        <div className="mt-6 rounded-[24px] border border-[rgba(23,63,115,0.1)] bg-white/72 px-4 py-4">
+        <div className="mt-6 rounded-[24px] border border-[rgba(23,63,115,0.08)] bg-white/72 px-4 py-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
             {activeSectionLabel}
           </p>
@@ -116,7 +116,7 @@ export function PrivateSidebar({
               {!isCollapsed ? (
                 <span className="min-w-0">
                   <span className="block text-sm font-semibold">{item.label}</span>
-                  {item.description ? (
+                  {active && item.description ? (
                     <span className={`block text-xs leading-5 ${active ? "text-white/78" : "text-slate-400"}`}>
                       {item.description}
                     </span>
@@ -128,7 +128,7 @@ export function PrivateSidebar({
         })}
       </nav>
 
-      <div className={`mt-4 flex items-center ${isCollapsed ? "justify-center" : "justify-between"} gap-3 rounded-[24px] border border-[rgba(23,63,115,0.1)] bg-white/72 px-3 py-3`}>
+      <div className={`mt-4 flex items-center ${isCollapsed ? "justify-center" : "justify-between"} gap-3 rounded-[24px] border border-[rgba(23,63,115,0.08)] bg-white/72 px-3 py-3`}>
         {!isCollapsed ? (
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">{shortcutLabel}</p>

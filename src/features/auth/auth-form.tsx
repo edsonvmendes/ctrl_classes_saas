@@ -80,9 +80,6 @@ export function AuthForm({
     <div className="panel-soft w-full max-w-[540px] rounded-[36px] p-3 shadow-[0_34px_90px_rgba(15,35,65,0.14)]">
       <div className="rounded-[30px] border border-white/70 bg-white/86 p-8 backdrop-blur md:p-9">
         <div className="mb-8 space-y-3">
-          <span className="inline-flex rounded-full border border-[rgba(23,63,115,0.12)] bg-[rgba(23,63,115,0.05)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-blue)]">
-            {emailLabel}
-          </span>
           <h1 className="font-display text-4xl font-bold tracking-[-0.05em] text-[var(--brand-navy)]">
             {title}
           </h1>

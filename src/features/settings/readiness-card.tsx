@@ -40,7 +40,7 @@ export async function ReadinessCard({ snapshot }: { snapshot: BetaReadinessSnaps
         </StatusBadge>
       </div>
 
-      <div className="mt-5 grid gap-3 md:grid-cols-3">
+      <div className="mt-5 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(190px,1fr))]">
         <article className={insetCardStyles()}>
           <CardLabel icon={Gauge}>{t("environmentCoverage")}</CardLabel>
           <p className="mt-2 text-2xl font-bold text-[var(--brand-navy)]">
@@ -76,7 +76,7 @@ export async function ReadinessCard({ snapshot }: { snapshot: BetaReadinessSnaps
         </article>
       </div>
 
-      <div className="mt-6 grid gap-4 xl:grid-cols-3">
+      <div className="mt-6 grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
         {snapshot.sections.map((section) => (
           <article className={insetCardStyles({ padding: "lg" })} key={section.key}>
             <CardLabel
@@ -104,7 +104,7 @@ export async function ReadinessCard({ snapshot }: { snapshot: BetaReadinessSnaps
         ))}
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+      <div className="mt-6 grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
         <article className={insetCardStyles({ padding: "lg" })}>
           <CardLabel icon={Link2}>{t("referenceTitle")}</CardLabel>
           <div className="mt-4 space-y-3">

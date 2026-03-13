@@ -89,10 +89,13 @@ export function StudentForm({
     student?.currency === "USD" || student?.currency === "EUR" ? student.currency : "BRL",
   );
   const [chargeNoShow, setChargeNoShow] = useState(student?.charge_no_show ?? true);
+  const [monthlyAmount, setMonthlyAmount] = useState(centsToInput(student?.monthly_amount_cents ?? null));
+  const [classRate, setClassRate] = useState(centsToInput(student?.class_rate_cents ?? null));
+  const [billingDay, setBillingDay] = useState(student?.billing_day_of_month?.toString() ?? "");
 
   return (
     <form action={formAction} className="space-y-8">
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+      <section className="grid gap-6 2xl:grid-cols-[minmax(0,1fr)_340px]">
         <div className="space-y-6">
           <section className="panel-soft rounded-[34px] p-8">
             <SectionHeading
@@ -209,8 +212,9 @@ export function StudentForm({
               >
                 <input
                   className={fieldStyles()}
-                  defaultValue={centsToInput(student?.monthly_amount_cents ?? null)}
+                  defaultValue={monthlyAmount}
                   name="monthly_amount"
+                  onChange={(event) => setMonthlyAmount(event.target.value)}
                   placeholder="0.00"
                 />
               </FormFieldShell>
@@ -222,8 +226,9 @@ export function StudentForm({
               >
                 <input
                   className={fieldStyles()}
-                  defaultValue={centsToInput(student?.class_rate_cents ?? null)}
+                  defaultValue={classRate}
                   name="class_rate"
+                  onChange={(event) => setClassRate(event.target.value)}
                   placeholder="0.00"
                 />
               </FormFieldShell>
@@ -235,10 +240,11 @@ export function StudentForm({
               >
                 <input
                   className={fieldStyles()}
-                  defaultValue={student?.billing_day_of_month ?? ""}
+                  defaultValue={billingDay}
                   max="28"
                   min="1"
                   name="billing_day_of_month"
+                  onChange={(event) => setBillingDay(event.target.value)}
                   type="number"
                 />
               </FormFieldShell>
@@ -285,7 +291,7 @@ export function StudentForm({
           </section>
         </div>
 
-        <aside className="space-y-4 xl:sticky xl:top-6 xl:self-start">
+        <aside className="space-y-4 2xl:sticky 2xl:top-6 2xl:self-start">
           <section className="panel-soft rounded-[30px] p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--brand-blue)]">
               {t("overviewTitle")}
@@ -320,6 +326,15 @@ export function StudentForm({
 
               <div className={insetCardStyles()}>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  {billingType === "per_class" ? t("classRate") : t("monthlyAmount")}
+                </p>
+                <p className="mt-2 text-sm font-semibold text-[var(--brand-navy)]">
+                  {billingType === "per_class" ? classRate || "0.00" : monthlyAmount || "0.00"} {currency}
+                </p>
+              </div>
+
+              <div className={insetCardStyles()}>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
                   {t("status")}
                 </p>
                 <p className="mt-2 text-sm font-semibold text-[var(--brand-navy)]">
@@ -332,6 +347,13 @@ export function StudentForm({
                   {t("currency")}
                 </p>
                 <p className="mt-2 text-sm font-semibold text-[var(--brand-navy)]">{currency}</p>
+              </div>
+
+              <div className={insetCardStyles()}>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  {t("billingDay")}
+                </p>
+                <p className="mt-2 text-sm font-semibold text-[var(--brand-navy)]">{billingDay || "-"}</p>
               </div>
 
               <div className={insetCardStyles()}>

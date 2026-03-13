@@ -20,8 +20,8 @@ export function MetricCard({
   return (
     <article className="metric-card interactive-card motion-rise rounded-[26px] p-5">
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">{label}</p>
+        <div className="min-w-0">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">{label}</p>
           <p className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-[var(--brand-navy)]">{value}</p>
         </div>
 
@@ -30,7 +30,7 @@ export function MetricCard({
         </span>
       </div>
 
-      {detail ? <p className="mt-4 text-sm leading-6 text-slate-500">{detail}</p> : null}
+      {detail ? <p className="mt-3 text-sm leading-6 text-slate-500">{detail}</p> : null}
     </article>
   );
 }

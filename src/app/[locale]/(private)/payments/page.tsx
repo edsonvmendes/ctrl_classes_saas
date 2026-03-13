@@ -148,7 +148,7 @@ async function PaymentsPageContent({
         </div>
       </PageHeader>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
         <MetricCard
           detail={formatCurrencyFromCents(snapshot.totals.amountAll, locale, summaryCurrency)}
           icon={CircleDollarSign}
@@ -190,42 +190,7 @@ async function PaymentsPageContent({
           title={t("emptyTitle")}
         />
       ) : (
-        <section className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
-          <article className="section-shell rounded-[32px] p-6">
-            <SectionHeading
-              description={t("summaryDescription")}
-              icon={Wallet}
-              title={t("summaryTitle")}
-            />
-
-            <div className="mt-5 grid gap-3">
-              <div className={insetCardStyles()}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                  {t("summaryPending")}
-                </p>
-                <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
-                  {formatCurrencyFromCents(snapshot.totals.amountPending, locale, summaryCurrency)}
-                </p>
-              </div>
-              <div className={insetCardStyles()}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                  {t("summaryPaid")}
-                </p>
-                <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
-                  {formatCurrencyFromCents(snapshot.totals.amountPaid, locale, summaryCurrency)}
-                </p>
-              </div>
-              <div className={insetCardStyles()}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                  {t("summaryOverdue")}
-                </p>
-                <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
-                  {formatCurrencyFromCents(snapshot.totals.amountOverdue, locale, summaryCurrency)}
-                </p>
-              </div>
-            </div>
-          </article>
-
+        <section className="space-y-6">
           <article className="section-shell rounded-[32px] p-6">
             <SectionHeading
               action={
@@ -241,6 +206,33 @@ async function PaymentsPageContent({
               icon={CircleDollarSign}
               title={t("listTitle")}
             />
+
+            <div className="mt-5 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
+              <div className={insetCardStyles()}>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  {t("summaryPending")}
+                </p>
+                <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
+                  {formatCurrencyFromCents(snapshot.totals.amountPending, locale, summaryCurrency)}
+                </p>
+              </div>
+              <div className={insetCardStyles()}>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  {t("summaryPaid")}
+                </p>
+                <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
+                  {formatCurrencyFromCents(snapshot.totals.amountPaid, locale, summaryCurrency)}
+                </p>
+              </div>
+              <div className={insetCardStyles()}>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  {t("summaryOverdue")}
+                </p>
+                <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
+                  {formatCurrencyFromCents(snapshot.totals.amountOverdue, locale, summaryCurrency)}
+                </p>
+              </div>
+            </div>
 
             <div className="mt-6 space-y-3">
               {snapshot.payments.map((payment) => {
@@ -310,14 +302,14 @@ async function PaymentsPageContent({
                     </div>
 
                     <div className="mt-4 flex items-center">
-                        {effectiveStatus !== "paid" && effectiveStatus !== "cancelled" ? (
-                          <SettlePaymentForm
-                            action={settleAction}
-                            className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
-                            methodOptions={methodOptions}
-                            submitLabel={t("markPaid")}
-                          />
-                        ) : null}
+                      {effectiveStatus !== "paid" && effectiveStatus !== "cancelled" ? (
+                        <SettlePaymentForm
+                          action={settleAction}
+                          className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
+                          methodOptions={methodOptions}
+                          submitLabel={t("markPaid")}
+                        />
+                      ) : null}
                     </div>
                   </div>
                 );

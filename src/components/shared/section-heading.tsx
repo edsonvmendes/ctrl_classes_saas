@@ -21,10 +21,10 @@ export function SectionHeading({
     <div className="flex flex-wrap items-start justify-between gap-4">
       <div className="max-w-2xl">
         <CardLabel icon={icon}>{title}</CardLabel>
-        <h2 className="mt-3 font-display text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
+        <h2 className="mt-3 font-display text-[1.7rem] font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
           {title}
         </h2>
-        {description ? <p className="mt-2 text-sm leading-6 text-slate-500">{description}</p> : null}
+        {description ? <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500">{description}</p> : null}
       </div>
 
       {action ? <div className="flex flex-wrap items-center gap-3">{action}</div> : null}

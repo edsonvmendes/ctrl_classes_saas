@@ -137,7 +137,7 @@ function AgendaClassCard({
         {canCancelClass(classItem.status) ? (
           <form action={cancelAction}>
             <button
-              className={buttonStyles({ variant: "iconDanger" })}
+              className={buttonStyles({ variant: "secondary" })}
               type="submit"
             >
               {t("cancel")}
@@ -146,7 +146,7 @@ function AgendaClassCard({
         ) : null}
       </div>
 
-      <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-5 grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(190px,1fr))]">
         <div className={insetCardStyles()}>
           <CardLabel icon={Clock3}>{t("startsAt")}</CardLabel>
           <p className="mt-2 text-sm font-medium text-slate-700">
@@ -282,7 +282,7 @@ export default async function AgendaPage({ params, searchParams }: AgendaPagePro
         icon={CalendarRange}
         title={t("title")}
       >
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
           <MetricCard
             detail={periodLabel}
             icon={CalendarRange}
@@ -306,39 +306,41 @@ export default async function AgendaPage({ params, searchParams }: AgendaPagePro
           />
         </div>
 
-        <div className="grid gap-3 xl:grid-cols-[auto_auto_1fr]">
-          <span className="inline-flex h-11 items-center rounded-full border border-[rgba(23,63,115,0.1)] bg-white/78 px-4 text-sm font-medium text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.84)]">
-            {periodLabel}
-          </span>
+        <div className="panel-subtle rounded-[28px] p-4">
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+            <span className="inline-flex h-11 items-center rounded-full border border-[rgba(23,63,115,0.1)] bg-white/78 px-4 text-sm font-medium text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.84)]">
+              {periodLabel}
+            </span>
 
-          <div className="flex flex-wrap items-center gap-2">
-            {views.map((viewOption) => (
-              <Link
-                key={viewOption}
-                className={buttonStyles({
-                  size: "sm",
-                  variant: snapshot.view === viewOption ? "filterActive" : "filter",
-                })}
-                href={buildAgendaUrl(locale, snapshot.selectedDate, normalizedStatus, viewOption)}
-              >
-                {t(`view${viewOption.charAt(0).toUpperCase()}${viewOption.slice(1)}`)}
-              </Link>
-            ))}
-          </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {views.map((viewOption) => (
+                <Link
+                  key={viewOption}
+                  className={buttonStyles({
+                    size: "sm",
+                    variant: snapshot.view === viewOption ? "filterActive" : "filter",
+                  })}
+                  href={buildAgendaUrl(locale, snapshot.selectedDate, normalizedStatus, viewOption)}
+                >
+                  {t(`view${viewOption.charAt(0).toUpperCase()}${viewOption.slice(1)}`)}
+                </Link>
+              ))}
+            </div>
 
-          <div className="flex flex-wrap items-center gap-2 xl:justify-end">
-            {filters.map((filter) => (
-              <Link
-                key={filter}
-                className={buttonStyles({
-                  size: "sm",
-                  variant: normalizedStatus === filter ? "filterActive" : "filter",
-                })}
-                href={buildAgendaUrl(locale, snapshot.selectedDate, filter, snapshot.view)}
-              >
-                {t(`filter${filter.charAt(0).toUpperCase()}${filter.slice(1)}`)}
-              </Link>
-            ))}
+            <div className="flex flex-wrap items-center gap-2 xl:justify-end">
+              {filters.map((filter) => (
+                <Link
+                  key={filter}
+                  className={buttonStyles({
+                    size: "sm",
+                    variant: normalizedStatus === filter ? "filterActive" : "filter",
+                  })}
+                  href={buildAgendaUrl(locale, snapshot.selectedDate, filter, snapshot.view)}
+                >
+                  {t(`filter${filter.charAt(0).toUpperCase()}${filter.slice(1)}`)}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </PageHeader>
@@ -370,7 +372,7 @@ export default async function AgendaPage({ params, searchParams }: AgendaPagePro
       ) : null}
 
       {snapshot.view === "week" ? (
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-7">
+        <section className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]">
           {snapshot.days.map((day) => (
             <section className="section-shell interactive-card rounded-[28px] p-4" key={day.date}>
               <div className="mb-4 border-b border-[rgba(23,63,115,0.08)] pb-3">

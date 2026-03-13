@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import {
   CalendarClock,
@@ -84,10 +84,20 @@ export function ScheduleForm({
   const t = useTranslations("Schedules");
   const title = mode === "edit" ? t("editTitle") : t("newTitle");
   const submitLabel = mode === "edit" ? t("saveChanges") : t("save");
+  const [scheduleTitle, setScheduleTitle] = useState(initialValues?.title ?? "");
+  const [timezone, setTimezone] = useState(initialValues?.timezone ?? defaultTimezone);
+  const [status, setStatus] = useState<"active" | "paused" | "ended">(initialValues?.status ?? "active");
+  const [selectedWeekdays, setSelectedWeekdays] = useState<number[]>(initialValues?.by_weekday ?? []);
+
+  function toggleWeekday(weekday: number, checked: boolean) {
+    setSelectedWeekdays((current) =>
+      checked ? [...current, weekday].sort((left, right) => left - right) : current.filter((value) => value !== weekday),
+    );
+  }
 
   return (
     <form action={formAction} className="space-y-8">
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
+      <section className="grid gap-6 2xl:grid-cols-[minmax(0,1fr)_300px]">
         <div className="space-y-6">
           <section className="panel-soft rounded-[34px] p-8">
             <SectionHeading
@@ -101,8 +111,9 @@ export function ScheduleForm({
                 <span className="text-sm font-semibold text-slate-700">{t("titleLabel")}</span>
                 <input
                   className={fieldStyles()}
-                  defaultValue={initialValues?.title ?? ""}
+                  defaultValue={scheduleTitle}
                   name="title"
+                  onChange={(event) => setScheduleTitle(event.target.value)}
                   required
                 />
               </label>
@@ -136,8 +147,9 @@ export function ScheduleForm({
                 <span className="text-sm font-semibold text-slate-700">{t("timezoneLabel")}</span>
                 <input
                   className={fieldStyles()}
-                  defaultValue={initialValues?.timezone ?? defaultTimezone}
+                  defaultValue={timezone}
                   name="timezone"
+                  onChange={(event) => setTimezone(event.target.value)}
                   required
                 />
               </label>
@@ -202,8 +214,9 @@ export function ScheduleForm({
                 <span className="text-sm font-semibold text-slate-700">{t("statusLabel")}</span>
                 <select
                   className={fieldStyles({ control: "select" })}
-                  defaultValue={initialValues?.status ?? "active"}
+                  defaultValue={status}
                   name="status"
+                  onChange={(event) => setStatus(event.target.value as "active" | "paused" | "ended")}
                 >
                   <option value="active">{t("statusActive")}</option>
                   <option value="paused">{t("statusPaused")}</option>
@@ -232,6 +245,7 @@ export function ScheduleForm({
                       <input
                         defaultChecked={initialValues?.by_weekday.includes(weekday)}
                         name="by_weekday"
+                        onChange={(event) => toggleWeekday(weekday, event.target.checked)}
                         type="checkbox"
                         value={weekday}
                       />
@@ -253,7 +267,7 @@ export function ScheduleForm({
           </section>
         </div>
 
-        <aside className="space-y-4">
+        <aside className="space-y-4 2xl:sticky 2xl:top-6 2xl:self-start">
           <section className="panel-soft rounded-[30px] p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--brand-blue)]">
               {mode === "edit" ? t("editTitle") : t("newTitle")}
@@ -264,17 +278,21 @@ export function ScheduleForm({
           <section className="section-shell rounded-[30px] p-6">
             <div className="space-y-4">
               <div className={insetCardStyles()}>
+                <CardLabel icon={UserRound}>{t("titleLabel")}</CardLabel>
+                <p className="mt-3 text-sm font-semibold text-[var(--brand-navy)]">{scheduleTitle || "-"}</p>
+              </div>
+              <div className={insetCardStyles()}>
                 <CardLabel icon={Clock3}>{t("timezoneLabel")}</CardLabel>
                 <p className="mt-3 text-sm font-semibold text-[var(--brand-navy)]">
-                  {initialValues?.timezone ?? defaultTimezone}
+                  {timezone}
                 </p>
               </div>
               <div className={insetCardStyles()}>
                 <CardLabel icon={Sparkles}>{t("statusLabel")}</CardLabel>
                 <p className="mt-3 text-sm font-semibold text-[var(--brand-navy)]">
-                  {initialValues?.status === "paused"
+                  {status === "paused"
                     ? t("statusPaused")
-                    : initialValues?.status === "ended"
+                    : status === "ended"
                       ? t("statusEnded")
                       : t("statusActive")}
                 </p>
@@ -282,8 +300,8 @@ export function ScheduleForm({
               <div className={insetCardStyles()}>
                 <CardLabel icon={NotebookPen}>{t("weekdaysLabel")}</CardLabel>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {(initialValues?.by_weekday ?? []).length > 0 ? (
-                    (initialValues?.by_weekday ?? []).map((weekday) => (
+                  {selectedWeekdays.length > 0 ? (
+                    selectedWeekdays.map((weekday) => (
                       <span
                         className="rounded-full border border-[rgba(23,63,115,0.1)] bg-white/88 px-3 py-1 text-xs font-semibold text-slate-700"
                         key={weekday}

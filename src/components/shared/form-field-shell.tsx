@@ -15,12 +15,12 @@ export function FormFieldShell({
 }: FormFieldShellProps) {
   return (
     <label className="space-y-2.5">
-      <span className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+      <span className="flex items-center gap-2 text-sm font-semibold text-slate-800">
         {icon}
         {label}
       </span>
       {children}
-      {description ? <span className="block text-sm leading-6 text-slate-500">{description}</span> : null}
+      {description ? <span className="block text-xs leading-5 text-slate-500">{description}</span> : null}
     </label>
   );
 }

@@ -50,6 +50,7 @@ export default async function HomePage({ params }: HomePageProps) {
                 </span>
               </div>
             </div>
+
             <div className="motion-rise motion-delay-1 flex flex-wrap gap-4">
               <Link
                 className="inline-flex h-13 items-center justify-center rounded-full bg-[var(--brand-warm)] px-6 text-sm font-semibold text-[var(--brand-navy)] transition hover:translate-y-[-1px] hover:bg-[#f7da85]"
@@ -65,14 +66,23 @@ export default async function HomePage({ params }: HomePageProps) {
               </Link>
             </div>
 
-            <article className="motion-rise motion-delay-2 rounded-[32px] border border-white/12 bg-white/8 p-8 backdrop-blur">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-100">
-                {t("sectionTitle")}
-              </p>
-              <p className="mt-4 max-w-2xl text-base leading-7 text-slate-200/92">
-                {t("sectionDescription")}
-              </p>
-            </article>
+            <div className="motion-rise motion-delay-2 grid gap-4 sm:grid-cols-3">
+              <article className="rounded-[28px] border border-white/12 bg-white/8 p-5 backdrop-blur">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-100">{t("pillOne")}</p>
+                <p className="mt-3 text-2xl font-semibold tracking-[-0.04em]">{t("pillOne")}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-200/88">{t("asideItemOne")}</p>
+              </article>
+              <article className="rounded-[28px] border border-white/12 bg-white/8 p-5 backdrop-blur">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-100">{t("pillTwo")}</p>
+                <p className="mt-3 text-2xl font-semibold tracking-[-0.04em]">{t("pillTwo")}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-200/88">{t("asideItemTwo")}</p>
+              </article>
+              <article className="rounded-[28px] border border-white/12 bg-white/8 p-5 backdrop-blur">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-100">{t("pillThree")}</p>
+                <p className="mt-3 text-2xl font-semibold tracking-[-0.04em]">{t("pillThree")}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-200/88">{t("asideItemThree")}</p>
+              </article>
+            </div>
           </div>
 
           <div className="motion-rise motion-delay-2 relative">
@@ -92,21 +102,24 @@ export default async function HomePage({ params }: HomePageProps) {
               </div>
 
               <div className="mt-8 space-y-4">
-                <div className="rounded-[24px] border border-white/10 bg-white/6 p-5">
+                <div className="rounded-[28px] border border-white/10 bg-white/6 p-6">
                   <p className="text-xs uppercase tracking-[0.18em] text-blue-100">{t("asideItemOne")}</p>
-                  <p className="mt-2 text-2xl font-semibold">Cadastro vivo</p>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">
-                    Histórico, contato, cobrança e status reunidos no mesmo lugar.
+                  <p className="mt-2 text-3xl font-semibold tracking-[-0.04em]">{t("sectionTitle")}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">
+                    {t("sectionDescription")}
                   </p>
                 </div>
+
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-[24px] border border-white/10 bg-white/6 p-5">
                     <p className="text-xs uppercase tracking-[0.18em] text-blue-100">{t("asideItemTwo")}</p>
-                    <p className="mt-2 text-lg font-semibold">Aulas e rotina</p>
+                    <p className="mt-2 text-lg font-semibold">{t("pillTwo")}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-300">{t("description")}</p>
                   </div>
                   <div className="rounded-[24px] border border-white/10 bg-white/6 p-5">
                     <p className="text-xs uppercase tracking-[0.18em] text-blue-100">{t("asideItemThree")}</p>
-                    <p className="mt-2 text-lg font-semibold">Fluxo financeiro</p>
+                    <p className="mt-2 text-lg font-semibold">{t("pillThree")}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-300">{t("sectionDescription")}</p>
                   </div>
                 </div>
               </div>

@@ -124,7 +124,7 @@ export default async function SchedulesPage({ params }: SchedulesPageProps) {
         icon={Repeat2}
         title={t("title")}
       >
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
           <MetricCard
             detail={t("statusActive")}
             icon={PlayCircle}
