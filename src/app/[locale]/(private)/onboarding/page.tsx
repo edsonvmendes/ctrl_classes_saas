@@ -30,7 +30,7 @@ export default async function OnboardingPage({ params }: OnboardingPageProps) {
         icon={Sparkles}
         title={t("title")}
       >
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
           {steps.map((step, index) => (
             <div className={insetCardStyles()} key={step}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
@@ -42,7 +42,7 @@ export default async function OnboardingPage({ params }: OnboardingPageProps) {
         </div>
       </PageHeader>
 
-      <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+      <section className="grid gap-6 2xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
         <section className="rounded-[32px]">
           <PartnerForm
             action={action}
@@ -53,7 +53,7 @@ export default async function OnboardingPage({ params }: OnboardingPageProps) {
           />
         </section>
 
-        <aside className="space-y-6">
+        <aside className="space-y-6 2xl:sticky 2xl:top-6 2xl:self-start">
           <section className="surface-ink hero-glow rounded-[32px] border border-white/10 p-6 text-white">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-100/78">
               {t("asideTitle")}

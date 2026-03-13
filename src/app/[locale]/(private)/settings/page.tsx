@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Settings2, Sparkles } from "lucide-react";
+import { CreditCard, Globe2, Settings2, ShieldCheck, Sparkles } from "lucide-react";
 
+import { CardLabel } from "@/components/shared/card-label";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { insetCardStyles } from "@/components/shared/ui-primitives";
@@ -46,12 +47,63 @@ function getBillingBanner(
   return null;
 }
 
+function getLocaleLabel(
+  locale: "pt-BR" | "en-US" | "es-ES",
+  t: Awaited<ReturnType<typeof getTranslations<"PartnerForm">>>,
+) {
+  if (locale === "en-US") {
+    return t("localeEnUs");
+  }
+
+  if (locale === "es-ES") {
+    return t("localeEsEs");
+  }
+
+  return t("localePtBr");
+}
+
+function getTimezoneLabel(timezone: string) {
+  return timezone.split("/").at(-1)?.replaceAll("_", " ") ?? timezone;
+}
+
+function getSubscriptionTone(status: string) {
+  if (status === "active") {
+    return "success" as const;
+  }
+
+  if (status === "past_due" || status === "canceled") {
+    return "danger" as const;
+  }
+
+  return "warm" as const;
+}
+
+function getReadinessTone(status: string) {
+  return status === "ok" ? "success" : "warm";
+}
+
+function getSubscriptionStatusLabel(
+  status: string,
+  t: Awaited<ReturnType<typeof getTranslations<"Subscription">>>,
+) {
+  if (status === "past_due") {
+    return t("statusPast_due");
+  }
+
+  return t(`status${status.charAt(0).toUpperCase()}${status.slice(1)}` as "statusActive");
+}
+
 export default async function SettingsPage({ params, searchParams }: SettingsPageProps) {
   const { locale } = await params;
   const { billing } = await searchParams;
   setRequestLocale(locale);
 
-  const t = await getTranslations("Settings");
+  const [t, partnerFormT, readinessT, subscriptionT] = await Promise.all([
+    getTranslations("Settings"),
+    getTranslations("PartnerForm"),
+    getTranslations("Readiness"),
+    getTranslations("Subscription"),
+  ]);
   const partner = await getPartnerProfile(locale);
   const readinessSnapshot = await getBetaReadinessSnapshot();
   const subscriptionSnapshot = await getSubscriptionSnapshot(locale);
@@ -87,6 +139,40 @@ export default async function SettingsPage({ params, searchParams }: SettingsPag
 
       <section className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
         <div className="space-y-6">
+          <section className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
+            <article className={insetCardStyles()}>
+              <CardLabel icon={CreditCard}>{t("billingBadge")}</CardLabel>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <p className="text-lg font-semibold capitalize text-[var(--brand-navy)]">
+                  {subscriptionSnapshot.subscription.plan_code}
+                </p>
+                <StatusBadge tone={getSubscriptionTone(subscriptionSnapshot.subscription.status)}>
+                  {getSubscriptionStatusLabel(subscriptionSnapshot.subscription.status, subscriptionT)}
+                </StatusBadge>
+              </div>
+            </article>
+
+            <article className={insetCardStyles()}>
+              <CardLabel icon={Globe2}>{t("accountEyebrow")}</CardLabel>
+              <p className="mt-3 text-sm font-semibold text-[var(--brand-navy)]">
+                {getLocaleLabel(partner.locale, partnerFormT)}
+              </p>
+              <p className="mt-2 text-sm text-slate-500">{getTimezoneLabel(partner.timezone)}</p>
+            </article>
+
+            <article className={insetCardStyles()}>
+              <CardLabel icon={ShieldCheck}>{t("spaceBadge")}</CardLabel>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <p className="text-lg font-semibold text-[var(--brand-navy)]">
+                  {readinessSnapshot.environment.summary.configured}/{readinessSnapshot.environment.summary.total}
+                </p>
+                <StatusBadge tone={getReadinessTone(readinessSnapshot.overallStatus)}>
+                  {readinessSnapshot.overallStatus === "ok" ? readinessT("overallOk") : readinessT("overallAttention")}
+                </StatusBadge>
+              </div>
+            </article>
+          </section>
+
           <SubscriptionCard
             checkoutAction={checkoutAction}
             locale={locale}

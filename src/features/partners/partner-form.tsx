@@ -244,16 +244,15 @@ export function PartnerForm({
           </section>
         </div>
 
-        <aside className="space-y-4 2xl:sticky 2xl:top-6 2xl:self-start">
-          <section className="panel-soft rounded-[30px] p-6">
+        <aside className="2xl:sticky 2xl:top-6 2xl:self-start">
+          <section className="section-shell rounded-[30px] p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--brand-blue)]">
               {t("preferencesTitle")}
             </p>
-            <p className="mt-3 text-sm leading-6 text-slate-600">{description}</p>
-          </section>
+            <h3 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-[var(--brand-navy)]">{title}</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
 
-          <section className="section-shell rounded-[30px] p-6">
-            <div className="space-y-4">
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 2xl:grid-cols-1">
               <div className={insetCardStyles()}>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
                   {t("displayName")}

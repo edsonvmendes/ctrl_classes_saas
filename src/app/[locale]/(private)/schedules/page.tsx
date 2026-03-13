@@ -40,38 +40,43 @@ type ScheduleActionIconButtonProps = {
   href?: string;
   icon: LucideIcon;
   label: string;
+  compact?: boolean;
   tone?: "default" | "success" | "warning" | "danger";
 };
 
-function getActionButtonClass(tone: ScheduleActionIconButtonProps["tone"] = "default") {
+function getActionButtonClass(
+  tone: ScheduleActionIconButtonProps["tone"] = "default",
+  compact = false,
+) {
   if (tone === "success") {
-    return buttonStyles({ size: "icon", variant: "iconSuccess" });
+    return buttonStyles({ size: compact ? "icon" : "sm", variant: compact ? "iconSuccess" : "secondary" });
   }
 
   if (tone === "warning") {
-    return buttonStyles({ size: "icon", variant: "iconWarning" });
+    return buttonStyles({ size: compact ? "icon" : "sm", variant: compact ? "iconWarning" : "secondary" });
   }
 
   if (tone === "danger") {
-    return buttonStyles({ size: "icon", variant: "iconDanger" });
+    return buttonStyles({ size: compact ? "icon" : "sm", variant: compact ? "iconDanger" : "secondary" });
   }
 
-  return buttonStyles({ size: "icon", variant: "icon" });
+  return buttonStyles({ size: compact ? "icon" : "sm", variant: compact ? "icon" : "secondary" });
 }
 
 function ScheduleActionIconButton({
   href,
   icon: Icon,
   label,
+  compact = false,
   tone = "default",
 }: ScheduleActionIconButtonProps) {
-  const className = getActionButtonClass(tone);
+  const className = getActionButtonClass(tone, compact);
 
   if (href) {
     return (
       <Link aria-label={label} className={className} href={href} title={label}>
         <Icon aria-hidden="true" className="h-4 w-4" />
-        <span className="sr-only">{label}</span>
+        {compact ? <span className="sr-only">{label}</span> : <span className="ml-2">{label}</span>}
       </Link>
     );
   }
@@ -79,7 +84,7 @@ function ScheduleActionIconButton({
   return (
     <button aria-label={label} className={className} title={label} type="submit">
       <Icon aria-hidden="true" className="h-4 w-4" />
-      <span className="sr-only">{label}</span>
+      {compact ? <span className="sr-only">{label}</span> : <span className="ml-2">{label}</span>}
     </button>
   );
 }
@@ -97,6 +102,22 @@ function getScheduleStatusLabel(
   }
 
   return t("statusActive");
+}
+
+function getUpcomingClassStatusLabel(status: string) {
+  if (status === "completed") {
+    return "Completed";
+  }
+
+  if (status === "cancelled") {
+    return "Cancelled";
+  }
+
+  if (status === "no_show") {
+    return "No-show";
+  }
+
+  return "Scheduled";
 }
 
 export default async function SchedulesPage({ params }: SchedulesPageProps) {
@@ -205,25 +226,26 @@ export default async function SchedulesPage({ params }: SchedulesPageProps) {
                 <div className="mt-5 flex flex-wrap items-center gap-2">
                   <ScheduleActionIconButton
                     href={`/${locale}/schedules/${schedule.id}/edit`}
+                    compact={false}
                     icon={PencilLine}
                     label={t("edit")}
                   />
 
                   {schedule.status === "active" ? (
                     <form action={updateScheduleStatusAction.bind(null, locale, schedule.id, "paused")}>
-                      <ScheduleActionIconButton icon={Pause} label={t("pause")} tone="warning" />
+                      <ScheduleActionIconButton compact={false} icon={Pause} label={t("pause")} tone="warning" />
                     </form>
                   ) : null}
 
                   {schedule.status === "paused" ? (
                     <form action={updateScheduleStatusAction.bind(null, locale, schedule.id, "active")}>
-                      <ScheduleActionIconButton icon={Play} label={t("resume")} tone="success" />
+                      <ScheduleActionIconButton compact={false} icon={Play} label={t("resume")} tone="success" />
                     </form>
                   ) : null}
 
                   {schedule.status !== "ended" ? (
                     <form action={updateScheduleStatusAction.bind(null, locale, schedule.id, "ended")}>
-                      <ScheduleActionIconButton icon={Square} label={t("end")} tone="danger" />
+                      <ScheduleActionIconButton compact={false} icon={Square} label={t("end")} tone="danger" />
                     </form>
                   ) : null}
                 </div>
@@ -267,25 +289,26 @@ export default async function SchedulesPage({ params }: SchedulesPageProps) {
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       <ScheduleActionIconButton
                         href={`/${locale}/schedules/${schedule.id}/edit`}
+                        compact
                         icon={PencilLine}
                         label={t("edit")}
                       />
 
                       {schedule.status === "active" ? (
                         <form action={updateScheduleStatusAction.bind(null, locale, schedule.id, "paused")}>
-                          <ScheduleActionIconButton icon={Pause} label={t("pause")} tone="warning" />
+                          <ScheduleActionIconButton compact icon={Pause} label={t("pause")} tone="warning" />
                         </form>
                       ) : null}
 
                       {schedule.status === "paused" ? (
                         <form action={updateScheduleStatusAction.bind(null, locale, schedule.id, "active")}>
-                          <ScheduleActionIconButton icon={Play} label={t("resume")} tone="success" />
+                          <ScheduleActionIconButton compact icon={Play} label={t("resume")} tone="success" />
                         </form>
                       ) : null}
 
                       {schedule.status !== "ended" ? (
                         <form action={updateScheduleStatusAction.bind(null, locale, schedule.id, "ended")}>
-                          <ScheduleActionIconButton icon={Square} label={t("end")} tone="danger" />
+                          <ScheduleActionIconButton compact icon={Square} label={t("end")} tone="danger" />
                         </form>
                       ) : null}
                     </div>
@@ -328,8 +351,8 @@ export default async function SchedulesPage({ params }: SchedulesPageProps) {
                   {classItem.source === "schedule" ? t("sourceSchedule") : t("sourceManual")}
                 </span>
                 <span>
-                  <StatusBadge tone={classItem.status === "completed" ? "success" : "neutral"}>
-                    {classItem.status}
+                  <StatusBadge tone={classItem.status === "completed" ? "success" : classItem.status === "scheduled" ? "warm" : "neutral"}>
+                    {getUpcomingClassStatusLabel(classItem.status)}
                   </StatusBadge>
                 </span>
               </article>

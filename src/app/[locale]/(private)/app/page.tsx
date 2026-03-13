@@ -208,7 +208,7 @@ async function DashboardPageContent({
 
   return (
     <div className="space-y-6">
-      <section className="section-shell motion-rise rounded-[34px] p-7 md:p-8">
+      <section className="panel-soft hero-glow motion-rise rounded-[34px] p-7 md:p-8">
         <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-3xl">
             <CardLabel icon={CalendarClock}>{t("eyebrow")}</CardLabel>
@@ -456,9 +456,9 @@ async function DashboardPageContent({
               title={t("weekTitle")}
             />
 
-            <div className="mt-5 grid gap-3">
+            <div className="mt-5 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]">
               <div className={insetCardStyles()}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
                   {t("weekClasses")}
                 </p>
                 <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
@@ -466,7 +466,7 @@ async function DashboardPageContent({
                 </p>
               </div>
               <div className={insetCardStyles()}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
                   {t("weekAttendance")}
                 </p>
                 <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
@@ -474,24 +474,24 @@ async function DashboardPageContent({
                 </p>
               </div>
               <div className={insetCardStyles()}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
                   {t("weekRevenue")}
                 </p>
-                <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--brand-navy)]">
+                <p className="mt-2 text-lg font-semibold text-[var(--brand-navy)]">
                   {formatCurrencyFromCents(snapshot.weeklySummary.revenueCents, locale, snapshot.partner.currency)}
                 </p>
               </div>
             </div>
           </article>
 
-          <article className="section-shell motion-rise motion-delay-4 rounded-[34px] p-6">
+          <article className="section-shell motion-rise motion-delay-3 rounded-[34px] p-6">
             <SectionHeading
               description={t("overviewAsideDescription")}
               icon={CreditCard}
               title={t("overviewAsideTitle")}
             />
 
-            <div className="mt-5 grid gap-3">
+            <div className="mt-5 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]">
               <div className={insetCardStyles()}>
                 <CardLabel icon={CreditCard}>{t("subscriptionPlan")}</CardLabel>
                 <p className="mt-3 text-lg font-semibold capitalize text-[var(--brand-navy)]">

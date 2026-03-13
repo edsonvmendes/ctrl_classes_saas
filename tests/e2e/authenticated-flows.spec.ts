@@ -51,7 +51,7 @@ test.describe("authenticated flows", () => {
     await page.locator('input[name="start_date"]').fill("2026-03-09");
     await page.locator('input[name="by_weekday"][value="1"]').check();
     await submitServerActionAndEnsurePath(page, {
-      buttonName: "Salvar recorrencia",
+      buttonName: "Salvar recorrência",
       expectedPath: "/pt-BR/schedules",
       responsePath: "/pt-BR/schedules/new",
       timeout: transitionTimeout,
@@ -136,10 +136,10 @@ test.describe("authenticated flows", () => {
     await page.goto("/pt-BR/settings");
 
     await expect(page.getByRole("heading", { name: "Assinatura" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Configuração do sistema" })).toBeVisible();
-    await expect(page.getByText("Link de diagnóstico:")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Saúde do ambiente" })).toBeVisible();
+    await expect(page.getByText("Link de saúde")).toBeVisible();
     await expect(page.getByText("/api/health")).toBeVisible();
     await expect(page.getByText("Acesso com Google")).toBeVisible();
-    await expect(page.getByText("Links importantes")).toBeVisible();
+    await expect(page.getByText("Links de validação")).toBeVisible();
   });
 });

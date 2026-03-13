@@ -5,7 +5,7 @@ test("home page renders localized CTAs", async ({ page }) => {
 
   await expect(page.getByRole("link", { name: "Entrar" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Criar conta" })).toBeVisible();
-  await expect(page.getByText(/Cadastre alunos, acompanhe aulas/)).toBeVisible();
+  await expect(page.getByText(/Cadastre alunos, acompanhe aulas/).first()).toBeVisible();
 });
 
 test("login page renders auth entry points", async ({ page }) => {

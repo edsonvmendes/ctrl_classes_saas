@@ -24,7 +24,7 @@ export function PrivatePageLoadingState() {
         <SkeletonBlock className="h-1.5 w-32 rounded-full md:w-48" />
       </div>
 
-      <section className="section-shell rounded-[34px] p-7 md:p-8">
+      <section className="panel-soft hero-glow rounded-[34px] p-7 md:p-8">
         <SkeletonBlock className="h-5 w-36 rounded-full" />
         <SkeletonBlock className="mt-5 h-11 w-2/3 max-w-xl rounded-[24px]" />
         <SkeletonBlock className="mt-3 h-5 w-full max-w-2xl rounded-full" />
@@ -37,7 +37,7 @@ export function PrivatePageLoadingState() {
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
         {Array.from({ length: 4 }).map((_, index) => (
           <div className="section-shell rounded-[28px] p-5" key={index}>
             <SkeletonBlock className="h-4 w-24 rounded-full" />
@@ -47,7 +47,7 @@ export function PrivatePageLoadingState() {
         ))}
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+      <section className="grid gap-6 2xl:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)]">
         <div className="space-y-6">
           {Array.from({ length: 2 }).map((_, index) => (
             <div className="section-shell rounded-[32px] p-6 md:p-8" key={index}>
@@ -67,12 +67,12 @@ export function PrivatePageLoadingState() {
         </div>
 
         <div className="space-y-6">
-          {Array.from({ length: 3 }).map((_, index) => (
+          {Array.from({ length: 2 }).map((_, index) => (
             <div className="section-shell rounded-[32px] p-6" key={index}>
               <SkeletonBlock className="h-5 w-24 rounded-full" />
               <SkeletonBlock className="mt-3 h-8 w-1/2 rounded-[18px]" />
               <div className="mt-5 grid gap-3">
-                {Array.from({ length: index === 0 ? 4 : 2 }).map((__, itemIndex) => (
+                {Array.from({ length: index === 0 ? 3 : 2 }).map((__, itemIndex) => (
                   <SkeletonBlock className="h-20 w-full rounded-[24px]" key={itemIndex} />
                 ))}
               </div>
