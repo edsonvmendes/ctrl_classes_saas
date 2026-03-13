@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { CreditCard, Globe2, Settings2, ShieldCheck, Sparkles } from "lucide-react";
+import { CreditCard, Globe2, Settings2, Sparkles } from "lucide-react";
 
 import { CardLabel } from "@/components/shared/card-label";
 import { PageHeader } from "@/components/shared/page-header";
@@ -8,8 +8,6 @@ import { insetCardStyles } from "@/components/shared/ui-primitives";
 import { updatePartnerSettingsAction } from "@/features/partners/actions";
 import { getPartnerProfile } from "@/features/partners/data";
 import { PartnerForm } from "@/features/partners/partner-form";
-import { ReadinessCard } from "@/features/settings/readiness-card";
-import { getBetaReadinessSnapshot } from "@/features/settings/readiness";
 import { openCustomerPortalAction, startCheckoutAction } from "@/features/subscriptions/actions";
 import { getSubscriptionSnapshot } from "@/features/subscriptions/data";
 import { SubscriptionCard } from "@/features/subscriptions/subscription-card";
@@ -78,10 +76,6 @@ function getSubscriptionTone(status: string) {
   return "warm" as const;
 }
 
-function getReadinessTone(status: string) {
-  return status === "ok" ? "success" : "warm";
-}
-
 function getSubscriptionStatusLabel(
   status: string,
   t: Awaited<ReturnType<typeof getTranslations<"Subscription">>>,
@@ -98,14 +92,12 @@ export default async function SettingsPage({ params, searchParams }: SettingsPag
   const { billing } = await searchParams;
   setRequestLocale(locale);
 
-  const [t, partnerFormT, readinessT, subscriptionT] = await Promise.all([
+  const [t, partnerFormT, subscriptionT] = await Promise.all([
     getTranslations("Settings"),
     getTranslations("PartnerForm"),
-    getTranslations("Readiness"),
     getTranslations("Subscription"),
   ]);
   const partner = await getPartnerProfile(locale);
-  const readinessSnapshot = await getBetaReadinessSnapshot();
   const subscriptionSnapshot = await getSubscriptionSnapshot(locale);
   const action = updatePartnerSettingsAction.bind(null, locale);
   const checkoutAction = startCheckoutAction.bind(null, locale);
@@ -137,76 +129,58 @@ export default async function SettingsPage({ params, searchParams }: SettingsPag
         )}
       </PageHeader>
 
-      <section className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <div className="space-y-6">
-          <section className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
-            <article className={insetCardStyles()}>
-              <CardLabel icon={CreditCard}>{t("billingBadge")}</CardLabel>
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <p className="text-lg font-semibold capitalize text-[var(--brand-navy)]">
-                  {subscriptionSnapshot.subscription.plan_code}
-                </p>
-                <StatusBadge tone={getSubscriptionTone(subscriptionSnapshot.subscription.status)}>
-                  {getSubscriptionStatusLabel(subscriptionSnapshot.subscription.status, subscriptionT)}
-                </StatusBadge>
-              </div>
-            </article>
-
-            <article className={insetCardStyles()}>
-              <CardLabel icon={Globe2}>{t("accountEyebrow")}</CardLabel>
-              <p className="mt-3 text-sm font-semibold text-[var(--brand-navy)]">
-                {getLocaleLabel(partner.locale, partnerFormT)}
+      <section className="space-y-6">
+        <section className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
+          <article className={insetCardStyles()}>
+            <CardLabel icon={CreditCard}>{t("billingBadge")}</CardLabel>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <p className="text-lg font-semibold capitalize text-[var(--brand-navy)]">
+                {subscriptionSnapshot.subscription.plan_code}
               </p>
-              <p className="mt-2 text-sm text-slate-500">{getTimezoneLabel(partner.timezone)}</p>
-            </article>
-
-            <article className={insetCardStyles()}>
-              <CardLabel icon={ShieldCheck}>{t("spaceBadge")}</CardLabel>
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <p className="text-lg font-semibold text-[var(--brand-navy)]">
-                  {readinessSnapshot.environment.summary.configured}/{readinessSnapshot.environment.summary.total}
-                </p>
-                <StatusBadge tone={getReadinessTone(readinessSnapshot.overallStatus)}>
-                  {readinessSnapshot.overallStatus === "ok" ? readinessT("overallOk") : readinessT("overallAttention")}
-                </StatusBadge>
-              </div>
-            </article>
-          </section>
-
-          <SubscriptionCard
-            checkoutAction={checkoutAction}
-            locale={locale}
-            portalAction={portalAction}
-            stripeConfigured={subscriptionSnapshot.stripeConfigured}
-            subscription={subscriptionSnapshot.subscription}
-          />
-
-          <section className="section-shell rounded-[32px] p-6">
-            <div className="mb-6 flex items-center gap-3">
-              <span className="icon-orb h-11 w-11" data-tone="blue">
-                <Sparkles className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  {t("accountEyebrow")}
-                </p>
-                <h2 className="mt-1 text-2xl font-semibold text-[var(--brand-navy)]">{t("accountTitle")}</h2>
-              </div>
+              <StatusBadge tone={getSubscriptionTone(subscriptionSnapshot.subscription.status)}>
+                {getSubscriptionStatusLabel(subscriptionSnapshot.subscription.status, subscriptionT)}
+              </StatusBadge>
             </div>
+          </article>
 
-            <PartnerForm
-              action={action}
-              description={t("description")}
-              partner={partner}
-              submitLabel={t("submit")}
-              title={t("accountFormTitle")}
-            />
-          </section>
-        </div>
+          <article className={insetCardStyles()}>
+            <CardLabel icon={Globe2}>{t("accountEyebrow")}</CardLabel>
+            <p className="mt-3 text-sm font-semibold text-[var(--brand-navy)]">
+              {getLocaleLabel(partner.locale, partnerFormT)}
+            </p>
+            <p className="mt-2 text-sm text-slate-500">{getTimezoneLabel(partner.timezone)}</p>
+          </article>
+        </section>
 
-        <div className="2xl:sticky 2xl:top-6 2xl:self-start">
-          <ReadinessCard snapshot={readinessSnapshot} />
-        </div>
+        <SubscriptionCard
+          checkoutAction={checkoutAction}
+          locale={locale}
+          portalAction={portalAction}
+          stripeConfigured={subscriptionSnapshot.stripeConfigured}
+          subscription={subscriptionSnapshot.subscription}
+        />
+
+        <section className="section-shell rounded-[32px] p-6">
+          <div className="mb-6 flex items-center gap-3">
+            <span className="icon-orb h-11 w-11" data-tone="blue">
+              <Sparkles className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                {t("accountEyebrow")}
+              </p>
+              <h2 className="mt-1 text-2xl font-semibold text-[var(--brand-navy)]">{t("accountTitle")}</h2>
+            </div>
+          </div>
+
+          <PartnerForm
+            action={action}
+            description={t("description")}
+            partner={partner}
+            submitLabel={t("submit")}
+            title={t("accountFormTitle")}
+          />
+        </section>
       </section>
     </div>
   );

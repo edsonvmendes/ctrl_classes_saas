@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 const privateRoutes = [
+  "/pt-BR/god",
   "/pt-BR/app",
   "/pt-BR/students",
   "/pt-BR/agenda",

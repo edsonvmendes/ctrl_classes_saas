@@ -131,15 +131,13 @@ test.describe("authenticated flows", () => {
     });
   });
 
-  test("renders subscription and readiness in settings", async ({ page }) => {
+  test("renders subscription and account settings", async ({ page }) => {
     await loginAsTestUser(page);
     await page.goto("/pt-BR/settings");
 
     await expect(page.getByRole("heading", { name: "Assinatura" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Saúde do ambiente" })).toBeVisible();
-    await expect(page.getByText("Link de saúde")).toBeVisible();
-    await expect(page.getByText("/api/health")).toBeVisible();
-    await expect(page.getByText("Acesso com Google")).toBeVisible();
-    await expect(page.getByText("Links de validação")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Perfil da conta" })).toBeVisible();
+    await expect(page.getByText("Português (Brasil)")).toBeVisible();
+    await expect(page.getByText("Sao Paulo")).toBeVisible();
   });
 });

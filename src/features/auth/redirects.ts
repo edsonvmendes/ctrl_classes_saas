@@ -1,4 +1,9 @@
 import { hasBillingAccess } from "@/features/subscriptions/rules";
+import type { AppRole } from "@/types/profile";
+
+type AuthProfileState = {
+  role: AppRole;
+};
 
 type AuthPartnerState = {
   partner_id: string;
@@ -15,7 +20,7 @@ type SupabaseAuthLookup = {
   auth: {
     getUser: () => Promise<{ data: { user: { id: string } | null } }>;
   };
-  from: (table: "partners" | "subscriptions") => {
+  from: (table: "profiles" | "partners" | "subscriptions") => {
     select: (query: string) => {
       eq: (column: string, value: string) => {
         single: () => Promise<{ data: unknown; error: { message: string } | null }>;
@@ -26,9 +31,14 @@ type SupabaseAuthLookup = {
 
 export function resolvePostAuthPath(
   locale: string,
+  profile: AuthProfileState | null,
   partner: AuthPartnerState | null,
   subscription: AuthSubscriptionState,
 ) {
+  if (profile?.role === "god") {
+    return `/${locale}/god`;
+  }
+
   if (!partner || !partner.onboarding_completed_at) {
     return `/${locale}/onboarding`;
   }
@@ -47,6 +57,20 @@ export async function getPostAuthPath(locale: string, supabase: SupabaseAuthLook
 
   if (!user) {
     return `/${locale}/login`;
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError || !profile) {
+    return `/${locale}/login`;
+  }
+
+  if ((profile as AuthProfileState).role === "god") {
+    return `/${locale}/god`;
   }
 
   const { data: partner, error: partnerError } = await supabase
@@ -73,5 +97,10 @@ export async function getPostAuthPath(locale: string, supabase: SupabaseAuthLook
     return `/${locale}/settings?billing=required`;
   }
 
-  return resolvePostAuthPath(locale, partner as AuthPartnerState, subscription as AuthSubscriptionState);
+  return resolvePostAuthPath(
+    locale,
+    profile as AuthProfileState,
+    partner as AuthPartnerState,
+    subscription as AuthSubscriptionState,
+  );
 }

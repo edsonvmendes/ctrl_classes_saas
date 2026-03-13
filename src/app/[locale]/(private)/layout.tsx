@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
 import { PrivateMobileNav } from "@/components/shared/private-mobile-nav";
@@ -6,7 +5,7 @@ import { PrivateSidebar } from "@/components/shared/private-sidebar";
 import { PrivateShellHeader } from "@/components/shared/private-shell-header";
 import { type NavItem } from "@/components/shared/private-nav-state";
 import { signOutAction } from "@/features/auth/actions";
-import { getUser } from "@/lib/auth/session";
+import { requireTeacherAdmin } from "@/lib/auth/profile";
 
 type PrivateLayoutProps = {
   children: React.ReactNode;
@@ -18,12 +17,8 @@ export default async function PrivateLayout({
   params,
 }: PrivateLayoutProps) {
   const { locale } = await params;
-  const user = await getUser();
+  const currentProfile = await requireTeacherAdmin(locale);
   const t = await getTranslations("PrivateNav");
-
-  if (!user) {
-    redirect(`/${locale}/login`);
-  }
 
   const signOut = signOutAction.bind(null, locale);
   const navItems: NavItem[] = [
@@ -102,7 +97,7 @@ export default async function PrivateLayout({
             settingsLabel={t("settings")}
             signOutAction={signOut}
             signOutLabel={t("signOut")}
-            userEmail={user.email ?? ""}
+            userEmail={currentProfile.profile.email}
             workspaceLabel={t("workspace")}
           />
 

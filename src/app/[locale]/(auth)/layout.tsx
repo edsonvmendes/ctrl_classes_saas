@@ -3,7 +3,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CalendarRange, CreditCard, ShieldCheck, Sparkles } from "lucide-react";
 
 import { Logo } from "@/components/shared/logo";
-import { getUser } from "@/lib/auth/session";
+import { getPostAuthPath } from "@/features/auth/redirects";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
@@ -16,11 +17,15 @@ export default async function AuthLayout({
 }: AuthLayoutProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const user = await getUser();
   const t = await getTranslations("AuthShell");
+  const supabase = await createSupabaseServerClient();
+  const destination = await getPostAuthPath(
+    locale,
+    supabase as unknown as Parameters<typeof getPostAuthPath>[1],
+  );
 
-  if (user) {
-    redirect(`/${locale}/onboarding`);
+  if (destination !== `/${locale}/login`) {
+    redirect(destination);
   }
 
   return (
